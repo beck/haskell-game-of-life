@@ -4,18 +4,15 @@ Curious about the language, this is my project to learn.
 
 ## Getting Started
 
-```
+```sh
 brew install ghc cabal-instal
-```
 
-Which is better?
-```
-cabal build
-```
+# install deps
+cabal install
 
-or
-```
-ghc Main.hs
-```
+# compile it
+ghc game-of-life.hs
 
-???
+# run it
+./game-of-life
+```
