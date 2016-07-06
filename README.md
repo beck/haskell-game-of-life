@@ -5,14 +5,12 @@ Curious about the language, this is my project to learn.
 ## Getting Started
 
 ```sh
-brew install ghc cabal-instal
+brew install ghc cabal-install
 
 # install deps
+cabal update
 cabal install
 
-# compile it
-ghc game-of-life.hs
-
 # run it
-./game-of-life
+runhaskell game-of-life.hs
 ```

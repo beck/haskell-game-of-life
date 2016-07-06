@@ -1,22 +1,26 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module Main where
 import Control.Concurrent
 import System.Console.ANSI
+import Data.ByteString.UTF8 (fromString)
 
+dot True = "●"
+dot False = " "
 
-duplicate :: String -> Int -> String
-duplicate string n = concat $ replicate n string
+class Display a where
+  display :: a -> String
 
+instance Display Bool where
+  display a = dot a
 
-line 0 = return ()
+instance Display [Bool] where
+  display a = unwords (map dot a)
 
-line n = do
-  line (n - 1)
-  clearScreen
-  threadDelay 100000
-  putStrLn (duplicate "-" n)
-
+instance Display [[Bool]] where
+  display a = unlines (map display a)
 
 main = do
-  line 10
   clearScreen
-  putStrLn "done"
+  let a = [[True, True, True], [True, True, True], [True, True, True]]
+  putStr (display a)
