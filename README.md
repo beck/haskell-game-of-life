@@ -1,4 +1,4 @@
-# Game of Life, written in Haskell
+# Conway's Game of Life, written in Haskell
 
 Curious about the language, this is my project to learn.
 
