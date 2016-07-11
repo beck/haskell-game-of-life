@@ -103,6 +103,10 @@ gameOfLife state = do
 
 mkfalse n = map (\x -> False) [1..n]
 
+glider = ([False, True] ++ (mkfalse (width-2)) ++
+  [False, False, True] ++ (mkfalse (width-3)) ++
+  [True, True, True] ++ (mkfalse (width-3)) ++ (mkfalse (17*width)))
+
 initLife g = do
   take (width * width) (randoms g) :: [Bool]
 
@@ -112,4 +116,5 @@ main = do
   let seed = (head (words (show randSeed)))
   let g = (mkStdGen (read seed :: Int))
   let state = initLife g
+  -- let state = glider
   gameOfLife state
