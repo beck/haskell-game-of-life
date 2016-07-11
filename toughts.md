@@ -1,4 +1,4 @@
-# First Impression
+# First Impressions
 
 What is a cabal?
 
@@ -25,3 +25,10 @@ putStrLn . show $ 1 + 1
 putStrLn . show . (+1) $ 1
 (putStrLn . show . (+1)) 1
 ```
+
+Creating random numbers was a (pleasantly difficult) chore. Neat that forcing
+state is hard.
+
+Debugging is hard when you just want to print.
+
+Output is messy but am happy and had fun making this.
