@@ -1,16 +1,20 @@
 module Main where
 import Control.Concurrent
-import System.Console.ANSI
-import System.Random
-import Debug.Trace
 import Data.ByteString.UTF8 (fromString)
+import Debug.Trace
+import qualified Control.Exception as E
+import System.Console.ANSI
+import System.Exit
+import System.Posix.Signals
+import System.Random
 
 
 instance Show (a -> b) where
   show _ = "<function>"
 
 
-width = 20
+width = 25
+speed = 4
 
 -- convert state to IO
 
@@ -95,10 +99,10 @@ ageLife state = do
   map (\x -> (isCellAlive x state)) [0..(width * width - 1)]
 
 gameOfLife state = do
-  clearScreen
   putStr (display state)
   let sec = 1000000
-  threadDelay (round (sec/8))
+  threadDelay (round (sec/speed))
+  cursorUp (width + 1)
   gameOfLife (ageLife state)
 
 mkfalse n = map (\x -> False) [1..n]
@@ -110,11 +114,23 @@ glider = ([False, True] ++ (mkfalse (width-2)) ++
 initLife g = do
   take (width * width) (randoms g) :: [Bool]
 
+exitGame threadIdToKill = do
+  -- lesson learned: this happens in a different thread
+  showCursor
+  putStrLn "\nGame Over!"
+  E.throwTo threadIdToKill ExitSuccess
 
 main = do
+  -- create initial state
   randSeed <- newStdGen
   let seed = (head (words (show randSeed)))
   let g = (mkStdGen (read seed :: Int))
   let state = initLife g
   -- let state = glider
+
+  -- edit console cursor (with handlers to restore)
+  hideCursor
+  mainThreadId <- myThreadId
+  installHandler keyboardSignal (Catch (exitGame mainThreadId)) Nothing
+
   gameOfLife state
