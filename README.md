@@ -7,6 +7,10 @@ Curious about the language, this is my project to learn.
 ```sh
 brew install ghc cabal-install
 
+# using ghc@8.2.1 and cabal@2.0.0
+ghc --version
+cabal --version
+
 # install deps
 cabal update
 cabal install
